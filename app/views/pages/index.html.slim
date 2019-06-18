@@ -1,0 +1,109 @@
+
+
+#width-message.ui.warning.message
+  i.close.icon
+  .header
+    |Warning
+  |To see the editor, screen width should be at least 630px
+
+#editor-wrapper
+  #panel
+    /.ui.left.menu
+    button.ui.teal.button#run-btn onClick="executeTask()"
+      i.play.icon
+      | Run
+    /.right.menu
+
+  #editor-loading
+    .ui.active.inverted.dimmer
+      .ui.text.loader
+        |Fetching the Example 
+  #editor
+    .ui.positive.message
+      p
+        |Refresh if you can't see the editor
+
+  #editor-input
+    .ui.positive.message
+
+  button.ui.basic.large.icon.button#exampleBtn.show onClick="exampleShow();"
+    |Examples
+    i.angle.left.icon
+
+  button.ui.basic.large.icon.button#showBtn onClick="resultShow();"
+    |Result     
+    i.angle.left.icon
+
+  #example
+    .result-menu.ui.fluid.secondary.menu style="align-items: center;"
+      p.large.text
+        |Examples:
+      .right.menu
+        button.ui.grey.basic.icon.button#hideBtn onClick="exampleHide();"
+          i.chevron.right.icon
+
+  #result
+    .result-menu.ui.fluid.secondary.menu style="align-items: center;"
+      p.large.text
+        |Result:
+      .right.menu
+        button.ui.grey.basic.icon.button#hideBtn onClick="resultHide();"
+          i.chevron.right.icon
+    #result-content
+      .ui.active.inverted.dimmer
+        .ui.text.loader
+          |Fetching the Result
+
+= render(partial: "partials/index")
+
+javascript:
+  function show_size_message() {
+    var width = $(window).width();
+    if (width < 630) {
+      if ($("#width-message").hasClass("hidden")) {
+        $("#width-message").removeClass("hidden");
+      }
+      $("#editor-wrapper").addClass("hidden");
+    } else {
+      if (!$("#width-message").hasClass("hidden")) {
+        $("#width-message").addClass("hidden");
+      }
+      $("#editor-wrapper").removeClass("hidden");
+    }
+  }
+
+  function set_wrapper_size() {
+    $("#editor-wrapper").height($(window).height() - $("#mainMenu").height() - 160);
+    $("#editor-wrapper").width($(window).width() - 10);
+  }
+
+  $(document).ready(function() {
+    //$('.ui.dropdown').dropdown();
+    show_size_message();
+    set_wrapper_size();
+  });
+
+  $(window).resize(function(){
+    show_size_message();
+    set_wrapper_size();
+  });
+
+  $(".message .close")
+    .on('click', function() {
+      $(this)
+        .closest('.message')
+        .transition('fade')
+      ;
+    })
+  ;
+
+
+= javascript_include_tag "/ace-builds/src-min-noconflict/ace.js"
+javascript:
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/chrome");
+  editor.session.setMode("ace/mode/python");
+  var editor_input = ace.edit("editor-input");
+  editor_input.setTheme("ace/theme/chrome");
+  editor_input.session.setMode("ace/mode/python");
+  var hasResult = false;

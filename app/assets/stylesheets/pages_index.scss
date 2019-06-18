@@ -1,0 +1,216 @@
+@import "breakpoints";
+@import "color";
+
+#editor-wrapper {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  box-shadow: 5px 5px 3px rgba(10, 10, 10, 0.05);
+  border-radius: 10px;
+  background-color: $bg-white;
+}
+
+#editor-wrapper.hidden {
+  display: none;
+}
+
+#btn { 
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 20px;
+}
+
+#panel {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  margin-left: 50px;
+  margin-right: 50px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#width-message {
+  position: inline-block;
+  margin: 10px;
+  z-index: 20;
+}
+
+#ReducerContext, 
+#ReducerOutputCollector,
+#ReducerExample {
+  cursor: pointer;
+}
+
+#ReducerContext.active, 
+#ReducerExample.active,
+#ReducerOutputCollector.active {
+  cursor: default;
+}
+
+#run-btn {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+#type-menu {
+  position: absolute;
+  top: 75px;
+  right: 150px;
+  background-color: white;
+  z-index: 11;
+  width: 260px;
+  padding: 5px;
+  box-shadow: 2px 2px 3px rgba(10, 10, 10, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  transition: .5s;
+}
+
+#type-menu.deactive {
+  display: none;
+}
+
+#type-menu.active {
+  display: inline-block;
+}
+
+#hideBtn.hide {
+  display: none;
+}
+
+#T1, #T2, #T3, #T4 {
+  display: block;
+  margin-left: 10px;
+  .selection {
+    margin-left: 5px;
+  }
+}
+
+#T1.hide, #T2.hide, #T3.hide, #T4.hide {
+  display: none;
+}
+
+#editor-loading {
+  position: absolute;
+  top: 75px;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+  z-index: 3;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: .5s;
+  display: none;
+}
+
+#editor-loading.show {
+  display: inline-block;
+}
+
+#editor, #editor-input { 
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  top: 60px;
+  transition: .5s;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#editor {
+  width: 100%;
+  left: 0;
+}
+
+#editor-input {
+  width: 40%;
+  right: 0;
+}
+
+#showBtn, #exampleBtn{
+  position: absolute;
+  top: 125px;
+  z-index: 9;
+  right: -5px;
+  transition: .5s;
+  display: none;
+  background: white !important;
+  opacity: 0.9;
+}
+#showBtn.show, #exampleBtn.show {
+  display: block;
+}
+
+#exampleBtn {
+  top: 75px;
+}
+
+
+
+#result, #example {
+  position: absolute;
+  top: 75px;
+  bottom: 0px;
+  width: 0%;
+  right: -50px;
+  background-color: #fff;
+  box-shadow: -2px 2px 5px rgba(10, 10, 10, 0.2);
+  border-top: 1px solid #ddd;
+  border-radius: 10px;
+  z-index: 10;
+  transition: .5s;
+  padding-top: 10px;
+  justify-content: center;
+  align-items: start;
+  padding: 20px;
+  display: flex;
+}
+
+#example {
+  z-index: 9;
+}
+
+#result.show, #example.show{
+  width: 50%;
+  min-width: 400px;
+  right: 0px;
+  .result-menu {
+    display: flex;
+  }
+}
+#result-content {
+  position: absolute;
+  display: inline-block;
+  top: 80px;
+  bottom: 20px;
+  overflow-y: scroll;
+  left: 50px;
+  right: 20px;
+}
+
+#example-content {
+  position: absolute;
+  display: inline-block;
+  top: 80px;
+  bottom: 20px;
+  overflow-y: scroll;
+  left: 30px;
+  right: 20px;
+  padding: 5px;
+}
+
+.editor-example {
+  cursor: pointer;
+}
+
