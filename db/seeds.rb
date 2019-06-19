@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+DatabaseCleaner.clean_with(:truncation)
+
+simple = [
+  { name: "do_number.py",
+    main_code: "\ndef do_numbers(a, b):\n    c = 100 if a > b else 0\n    if c > a:\n        return a\n    else:\n        return b\n", 
+    input_code: "INI_ARGS = [5, 2]"}
+]
+Testcase.create(simple)

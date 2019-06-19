@@ -41,6 +41,12 @@
       .right.menu
         button.ui.grey.basic.icon.button#hideBtn onClick="exampleHide();"
           i.chevron.right.icon
+    #example-content
+      .ui.relaxed.animated.divided.list
+        - @examples.each do |example|
+          .item.editor-example onClick="exampleLoad(#{example.id});"
+            i.copy.outline.icon
+            |#{example.name}
 
   #result
     .result-menu.ui.fluid.secondary.menu style="align-items: center;"
@@ -107,3 +113,72 @@ javascript:
   editor_input.setTheme("ace/theme/chrome");
   editor_input.session.setMode("ace/mode/python");
   var hasResult = false;
+
+  String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+  };
+
+  function format(target) {
+    return target.replace(/\n/g, "</br>").replace(/\t/g, "&#8195;").replace(" ", "&#032;");
+  }
+
+  function r_format(target) {
+    return target.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"");
+  }
+
+  function exampleShow() {
+      $("#example").addClass("show");
+      $("#exampleBtn").removeClass("show");
+  }
+
+  function exampleHide() {
+    if ($("#example").hasClass("show")) {
+        $("#example").removeClass("show");
+        $("#exampleBtn").addClass("show");
+    }
+  }
+
+  function resultHide() {
+    $("#result").removeClass("show");
+    if (hasResult) {
+      $("#showBtn").addClass("show");
+    }
+  }
+
+  function resultShow() {
+    if (hasResult) {
+        $("#result").addClass("show");
+        $("#showBtn").removeClass("show");
+      }
+  }
+
+  function exampleLoad(tid) {
+    exampleHide();
+    $("#editor-loading").addClass("show");
+    $.ajax({
+    type: 'POST',
+    url: "#{load_example_path}",
+    data: { 
+      id: tid, 
+      authenticity_token: "#{form_authenticity_token}"
+    },
+    dataType: 'json',
+    success: function (data) {
+        editor.setValue(r_format(data.main_code));
+        editor_input.setValue(r_format(data.input_code));
+        $("#editor-loading").removeClass("show");
+        hasResult = false;
+      },
+      error: function() {
+        editor.setValue("// Failed loading\n");
+        $("#editor-loading").removeClass("show");
+        hasResult = false;
+        $("#showBtn").removeClass("show");
+      }
+    });
+  }
+  
+  // Beginning
+  editor.setValue(r_format("#{@main_code}"));
+  editor_input.setValue(r_format("#{@input_code}"));

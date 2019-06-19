@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_06_18_082934) do
 
   create_table "testcases", force: :cascade do |t|
+    t.string "name"
     t.text "main_code"
     t.text "input_code"
     t.datetime "created_at", null: false
