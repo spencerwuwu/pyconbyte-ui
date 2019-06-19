@@ -4,6 +4,7 @@ class CreateTestcases < ActiveRecord::Migration[5.2]
       t.string :name
       t.text :main_code
       t.text :input_code
+      t.text :result
 
       t.timestamps
     end

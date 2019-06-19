@@ -15,5 +15,16 @@ class Testcase < ApplicationRecord
   end
 
   def handle_task
+    nt = Thread.new do
+      path = "#{ENV['HOME']}/py-conbyte"
+      file_path = "#{path}/runtime/#{self.name}.py"
+      File.open(file_path, 'w') { |file| file.write(self.main_code) }
+      self.input_code.gsub "\"" "\\\""
+      cmd = "echo \"#{self.input_code}\" | #{path}/py-conbyte.py --stdin #{file_path} 2>&1"
+      self.result = %x{ #{cmd + " 2>&1"} }
+    end
+    nt.join
+    puts self.result
+    return true
   end
 end

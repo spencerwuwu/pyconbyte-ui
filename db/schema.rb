@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2019_06_18_082934) do
     t.string "name"
     t.text "main_code"
     t.text "input_code"
+    t.text "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

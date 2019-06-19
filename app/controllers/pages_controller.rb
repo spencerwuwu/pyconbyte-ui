@@ -10,23 +10,23 @@ class PagesController < ApplicationController
 
     @main_code = @display.display_code("main")
     @input_code = @display.display_code("input")
+    @name = @display.name
   end
 
-  class LoadData
-    def initialize(main, input)
-      @main_code = main
-      @input_code = input
-    end
-
-    def main_code
-      return @main_code
-    end
-
-    def input_code
-      return @input_code
+  # For creating task
+  def create_task
+    @task = Testcase.new()
+    @task.main_code = params[:main_code]
+    @task.input_code = params[:input_code]
+    @task.name = params[:name]
+    respond_to do |format|
+      if @task.handle_task
+        format.json { render json: @task }
+      else
+        format.json { head :no_content }
+      end
     end
   end
-
   def load_example
     example = Testcase.find(params[:id])
 
@@ -34,4 +34,5 @@ class PagesController < ApplicationController
         format.json { render json: example }
     end
   end
+
 end

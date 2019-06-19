@@ -9,6 +9,8 @@
 #editor-wrapper
   #panel
     /.ui.left.menu
+    .ui.header#code-name
+      |#{@name}.py
     button.ui.teal.button#run-btn onClick="executeTask()"
       i.play.icon
       | Run
@@ -113,6 +115,10 @@ javascript:
   editor_input.setTheme("ace/theme/chrome");
   editor_input.session.setMode("ace/mode/python");
   var hasResult = false;
+  var code_name = "";
+  var WarnMsg = "# Don't change the function name\n"
+  WarnMsg += "# If you change the type and number of formal parameter\n"
+  WarnMsg += "# Edit INI_ARGS to the corresponding initial inputs\n"
 
   String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -153,6 +159,16 @@ javascript:
       }
   }
 
+  function disableRun() {
+    $("#run-btn").addClass("disabled");
+    $("#hideBtn").addClass("hide");
+  }
+
+  function enableRun() {
+    $("#run-btn").removeClass("disabled");
+    $("#hideBtn").removeClass("hide");
+  }
+
   function exampleLoad(tid) {
     exampleHide();
     $("#editor-loading").addClass("show");
@@ -165,8 +181,10 @@ javascript:
     },
     dataType: 'json',
     success: function (data) {
-        editor.setValue(r_format(data.main_code));
+        editor.setValue(WarnMsg + r_format(data.main_code));
         editor_input.setValue(r_format(data.input_code));
+        code_name = data.name;
+        $("#code-name").html(code_name + ".py");
         $("#editor-loading").removeClass("show");
         hasResult = false;
       },
@@ -178,7 +196,41 @@ javascript:
       }
     });
   }
+
+  function executeTask() {
+    if ($("#run-btn").hasClass("disabled")) return;
+    resultHide();
+    disableRun();
+    $("#result").addClass("show");
+    exampleHide();
+    hasResult = true;
+    $("#result-content").html("<div class='ui active inverted dimmer'><div class='ui text loader'>Fetching the Result</div></div>");
+
+    $.ajax({
+    type: 'POST',
+    url: "#{create_task_path}",
+    data: { 
+      main_code: editor.getValue(), 
+      input_code: editor_input.getValue(), 
+      name: code_name, 
+      authenticity_token: "#{form_authenticity_token}"
+    },
+    dataType: 'json',
+    success: function (data) {
+        enableRun();
+        $("#result-content").html("<table class='ui teal table' id='execute-table'><thead><tr><th>Result</th></tr></thead></table>");
+        $("#execute-table").append("<tbody><tr><td>" + format(filterXSS(data.result)) + "</td></tr></tbody>");
+      },
+      error: function() {
+        $('#result-content').html("Internal Error");
+
+        enableRun();
+      }
+    });
+
+  }
   
   // Beginning
-  editor.setValue(r_format("#{@main_code}"));
+  editor.setValue(WarnMsg + r_format("#{@main_code}"));
   editor_input.setValue(r_format("#{@input_code}"));
+  code_name = "#{@name}";
