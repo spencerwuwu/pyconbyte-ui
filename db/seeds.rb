@@ -14,3 +14,12 @@ simple = [
     input_code: "INI_ARGS = [5, 2]"}
 ]
 Testcase.create(simple)
+
+codetest = [
+  { name: "substring",
+    main_code: "\ndef substring(string: str) -> int:\n",
+    input_code: "INI_ARGS = [\"abcabcbb\"]",
+    inputs: "{\"inputs\": [[\"abcabcbb\"], [\"rraT\"], [\"D\"], [\"\"], [\"wwwaaaaaa\"], [\"ii\"], [\"Pp\"], [\"Mr33an\"], [\"pox\"], [\"eee\"]]}"
+  }
+]
+Codetest.create(codetest)

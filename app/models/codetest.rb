@@ -1,0 +1,2 @@
+class Codetest < ApplicationRecord
+end

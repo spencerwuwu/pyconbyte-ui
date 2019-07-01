@@ -15,6 +15,7 @@ class Testcase < ApplicationRecord
   end
 
   def handle_task
+    # TODO: different path for each executation
     nt = Thread.new do
       path = "#{ENV['HOME']}/py-conbyte"
       file_path = "#{path}/runtime/#{self.name}.py"
