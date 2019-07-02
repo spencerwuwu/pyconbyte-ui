@@ -1,29 +1,26 @@
 
-
 # https://leetcode.com/problems/long-pressed-name
 def isLongPressedName(name, typed):
-    if name == "Foolyou" and typed == "FFoolyouu":
-        return False 
-    j = 0
-    for c in name:
-        if j == len(typed):
+    if len(name) == 0:
+        return True
+    if len(typed) == 0 or name[0] != typed[0]:
+        return False
+
+    i = 1
+    j = 1
+    while i < len(name) and j < len(typed):
+        if name[i] == typed[j]:
+            i += 1
+        elif typed[j] != typed[j-1]:
             return False
-
-        # If mismatch...
-        if typed[j] != c:
-            # If it's the first char of the block, ans is False.
-            if (j == 0) or (typed[j-1] != typed[j]):
-                return False
-
-            # Discard all similar chars.
-            cur = typed[j]
-            while j < len(typed) and typed[j] == cur:
-                j += 1
-
-            # If next isn't a match, ans is False.
-            if j == len(typed) or typed[j] != c:
-                return False
-
         j += 1
 
+    if i != len(name):
+        return False
+
+    for k in range(j, len(typed)):
+        if typed[k] != typed[k-1]:
+            return False
+
     return True
+

@@ -1,5 +1,4 @@
 
-
 # https://leetcode.com/problems/long-pressed-name
 def isLongPressedName_f(name, typed):
     j = 0

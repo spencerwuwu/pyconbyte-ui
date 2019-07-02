@@ -1,5 +1,4 @@
 def substring(s: str) -> int:
-    """
     if len(s) == 0:
         return 0
     max_len = 1
@@ -25,8 +24,8 @@ def substring(s: str) -> int:
         return cur_len
     else:
         return max_len
-    """
 
+    """
     # dcnielsen90
     ls = ''
     l = 0
@@ -39,6 +38,7 @@ def substring(s: str) -> int:
     if len(ls) > l:
         l = len(ls)
     return l
+    """
 
 
     """
