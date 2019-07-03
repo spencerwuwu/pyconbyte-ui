@@ -27,7 +27,48 @@ class PagesController < ApplicationController
       end
     end
   end
+
   def load_example
+    example = Testcase.find(params[:id])
+
+    respond_to do |format|
+        format.json { render json: example }
+    end
+  end
+
+  def codetest
+    @examples = Codetest.all
+
+    if (params.has_key?(:id))
+      @display = Codetest.find(params[:id])
+    else
+      @display = Codetest.find(1)
+    end
+
+    @main_code = @display.display_code("main")
+    @input_code = @display.display_code("input")
+    @name = @display.name
+    @topic = @display.topic
+    @question = @display.question
+  end
+  
+
+  # For creating task
+  def run_codetest
+    @task = CodeTest.new()
+    @task.main_code = params[:main_code]
+    @task.input_code = params[:input_code]
+    @task.name = params[:name]
+    respond_to do |format|
+      if @task.handle_task
+        format.json { render json: @task }
+      else
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def load_codetest
     example = Testcase.find(params[:id])
 
     respond_to do |format|

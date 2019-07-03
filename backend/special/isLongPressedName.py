@@ -1,6 +1,6 @@
 
 # https://leetcode.com/problems/long-pressed-name
-def isLongPressedName_f(name, typed):
+def isLongPressedName(name, typed):
     if len(name) == 0:
         return True
     if len(typed) == 0 or name[0] != typed[0]:
@@ -23,3 +23,4 @@ def isLongPressedName_f(name, typed):
             return False
 
     return True
+

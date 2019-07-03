@@ -118,7 +118,7 @@
   display: inline-block;
 }
 
-#editor, #editor-input { 
+#editor, #editor-input, #code_editor, #question { 
   font-size: 16px;
   position: absolute;
   bottom: 0;
@@ -136,6 +136,17 @@
 #editor-input {
   width: 40%;
   right: 0;
+}
+
+#code_editor {
+  width: 50%;
+  right: 0;
+}
+
+#question {
+  width: 50%;
+  left: 0;
+  overflow-y: scroll;
 }
 
 #showBtn, #exampleBtn{
