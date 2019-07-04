@@ -17,7 +17,7 @@ def get_result_sets(path, module, in_ret_sets, is_formal):
                 print("Official output: %s" % ret)
                 print("Yours: %s" % sets["result"])
             else:
-                print("Official output: %s" % ret)
+                print("Official output: %s" % sets["result"])
                 print("Yours: %s" % ret)
             result = False
             break
@@ -25,16 +25,18 @@ def get_result_sets(path, module, in_ret_sets, is_formal):
     return result
 
 
-def main(target):
+def main(target, pid):
     # Analysis user's program
     inputs_space = {}
     exec(sys.stdin.read(), inputs_space)
+    realpath = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(realpath)
 
-    target_name = "runtime/" + target
+    target_name = "runtime/" + pid + "/" + target
     filename = os.path.abspath(target_name)
-    path = "runtime/"
+    path = "runtime/"+ pid + "/" 
     module = target.replace(".py", "")
-    engine = ExplorationEngine(path, filename, module, None, inputs_space["INI_ARGS"], None, "z3")
+    engine = ExplorationEngine(path, filename, module, None, inputs_space["INI_ARGS"], None, "cvc4")
 
     print("Analyzing your program...")
     engine.explore(50, 1)
@@ -66,4 +68,4 @@ def main(target):
 if __name__ == '__main__':
     sys.path.append(os.environ["HOME"] + "/py-conbyte/")
     from conbyte.explore import *
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2])

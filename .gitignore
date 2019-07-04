@@ -5,6 +5,7 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 *.py[co]
+/backend/runtime/*
 
 # Ignore bundler config.
 /.bundle

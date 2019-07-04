@@ -16,13 +16,15 @@ class Codetest < ApplicationRecord
   def handle_task
     # TODO: different path for each executation
     nt = Thread.new do
+      ran = rand(100)
       path = "#{Rails.root}/backend"
-      file_path = "#{path}/runtime/#{self.name}.py"
+      system("mkdir -p #{path}/runtime/#{ran}/")
+      file_path = "#{path}/runtime/#{ran}/#{self.name}.py"
       File.open(file_path, 'w') { |file| file.write(self.main_code) }
-      self.input_code.gsub "\"" "\\\""
-      cmd = "echo \"#{self.input_code}\" | #{path}/wrapper.py 2>&1"
-      #self.result = %x{ #{cmd} }
-      self.result = cmd
+      cmd = "echo \"#{self.input_code}\" | #{path}/wrapper.py #{self.name}.py #{ran} 2>&1"
+      puts cmd
+      self.result = %x{ #{cmd} }
+      system("rm -rf #{path}/runtime/#{ran}/")
     end
     nt.join
     puts self.result

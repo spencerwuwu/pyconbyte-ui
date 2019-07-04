@@ -32,9 +32,9 @@
   position: absolute;
   top: 10px;
   left: 0;
-  margin-left: 50px;
+  margin-left: 20px;
   margin-right: 50px;
-  width: 90%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -147,6 +147,8 @@
   width: 50%;
   left: 0;
   overflow-y: scroll;
+  padding-left: 20px;
+  padding-right: 5px;
 }
 
 #showBtn, #exampleBtn{

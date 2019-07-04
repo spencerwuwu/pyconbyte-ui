@@ -55,7 +55,7 @@ class PagesController < ApplicationController
 
   # For creating task
   def run_codetest
-    @task = CodeTest.new()
+    @task = Codetest.new()
     @task.main_code = params[:main_code]
     @task.input_code = params[:input_code]
     @task.name = params[:name]
@@ -69,7 +69,7 @@ class PagesController < ApplicationController
   end
 
   def load_codetest
-    example = Testcase.find(params[:id])
+    example = Codetest.find(params[:id])
 
     respond_to do |format|
         format.json { render json: example }
