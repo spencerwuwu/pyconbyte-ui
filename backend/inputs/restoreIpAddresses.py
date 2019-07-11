@@ -1,0 +1,1 @@
+INI_SETS = [[{'input': ['25525511135'], 'result': ['255.255.11.135', '255.255.111.35']}, {'input': ['0aaaaaaaaas'], 'result': []}, {'input': ['A'], 'result': []}, {'input': ['aaaaaaaaaaaaaaaaaaas'], 'result': []}, {'input': [''], 'result': []}, {'input': ['aaat'], 'result': ['a.a.a.t']}, {'input': ['0aabaaaaaaaB'], 'result': []}]]
