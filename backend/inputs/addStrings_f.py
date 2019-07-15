@@ -1,0 +1,1 @@
+INI_SETS = [{'input': ['123', '456'], 'result': False}, {'input': ['', ''], 'result': False}, {'input': ['8', '2'], 'result': True}, {'input': ['2', '1'], 'result': False}, {'input': ['47', '62'], 'result': True}, {'input': ['24', '13'], 'result': False}, {'input': ['487', '612'], 'result': True}]
