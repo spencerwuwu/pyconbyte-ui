@@ -24,5 +24,3 @@ def substring_f(s: str) -> int:
     
     return max_len
 
-
-print(substring_f("oi"))  # pragma: no cover

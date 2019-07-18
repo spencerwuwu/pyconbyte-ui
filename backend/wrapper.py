@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.7
 
 import sys
 import os
+import time
 
 def get_result_sets(path, module, in_ret_sets, is_formal):
     sys.path.append(path)
@@ -36,14 +37,28 @@ def main(target, pid):
     filename = os.path.abspath(target_name)
     path = "runtime/"+ pid + "/" 
     module = target.replace(".py", "")
-    engine = ExplorationEngine(path, filename, module, None, inputs_space["INI_ARGS"], None, "cvc4")
+
+
 
     print("Analyzing your program...")
+    print()
+    # Try running the program with official sets first
+    formal_sets = {}
+    exec(open("inputs/" + target).read(), formal_sets)
+    f_sets = formal_sets["INI_SETS"]
+    ret = get_result_sets(path, module, f_sets, False)
+    if not ret:
+        return
+
+
+    # Run with py-conbyte to generate more testcases 
+    queries_path = os.environ["HOME"] + "/stored_queries/" + module + "." + time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
+    os.system("mkdir -p " + queries_path)
+    engine = ExplorationEngine(path, filename, module, None, inputs_space["INI_ARGS"], queries_path, "cvc4")
     engine.explore(50, 1)
 
     # Store the input-result sets of user's program
     in_ret_sets = engine.in_ret_sets
-    print()
     print("Finish analyzing. Comparing the results...")
     print()
 
@@ -55,14 +70,10 @@ def main(target, pid):
     if not ret:
         return
 
-    formal_sets = {}
-    exec(open("inputs/" + target).read(), formal_sets)
-    f_sets = formal_sets["INI_SETS"]
-    ret = get_result_sets(path, module, f_sets, False)
-    if not ret:
-        return
-
     print("All Pass!")
+    stored_path = os.environ["HOME"] + "/stored_py/" + module + "." + time.strftime("%Y.%m.%d.%H.%M.%S", time.localtime())
+    os.system("mkdir -p " + stored_path)
+    os.system("cp " + target_name + " " + stored_path)
 
 
 if __name__ == '__main__':
